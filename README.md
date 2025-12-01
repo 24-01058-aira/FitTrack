@@ -89,4 +89,9 @@ Acknowledgement
 Disclaimer
 	This project and its contents are provided for example and learning purposes only. Students are encouraged to use it as a reference and not copy it in its entirety.
 
+Contributors
+Jermae Balmes
+France Javie
+Aira Camino
+
 
