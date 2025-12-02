@@ -1,97 +1,246 @@
-# FitTrack
-A User-Centered Fitness and Progress Monitoring System
 Overview
-FitTrack is a console-based fitness and meal tracking system designed to help users manage their workout routines and dietary plans according to their personal fitness goals. The system allows users to register, log in, input their weight and fitness goals, and receive personalized workout and meal suggestions. Users can select workouts and foods they prefer, creating a customized routine. This system solves the problem of unorganized fitness tracking by providing a structured approach to monitor progress and maintain a balanced exercise and nutrition plan.
+
+FitTrack is a Java-based fitness tracking and routine-generation system designed to help users monitor their fitness goals and maintain personalized workout plans. The program allows users to register, log in, and generate routines based on their fitness objective: weight loss, weight gain, or muscle building. Using object-oriented principles, the system suggests appropriate workouts and foods, saves user-selected routines, and lets users view or delete previously saved records.
+This system aims to simplify fitness planning by providing structured recommendations and allowing users to record their progress conveniently.
 
 OOP Concepts Applied
-a. Encapsulation - sensitive data like username, password, weight, and goal in the User class are marked private and access is controlled through getter and setter methods, e.g., checkPassword(), setWeight(), setGoal(). The Food class also encapsulates fields name and type with getters for controlled access.
-b. Inheritance - the abstract Workout class serves as a superclass. Cardio, Strength, and Flexibility are subclasses, inheriting common fields (name, duration) and methods from Workout. This allows code reuse and avoids redundancy for shared workout properties.
-c. Polymorphism - method overriding is used in each subclass of Workout to implement showDetails() differently according to the type of workout. Dynamic polymorphism occurs when a Workout reference is used to store any subclass object: Workout w = new Cardio("Running", 30); w.showDetails(); // Calls Cardio's version at runtime
-d. Abstraction - workout is an abstract class with the abstract method showDetails(). It provides a blueprint for all types of workouts, enforcing that subclasses implement their own showDetails() method. It hides internal implementation details of specific workouts from the user interface.
-e. Exception Handling - custom exception InvalidInputException is created to handle invalid fitness goals. Try-catch blocks are used to handle invalid user inputs like non-numeric weight or invalid goal entries, preventing program crashes.
+
+1 Abstraction
+The program uses the abstract class RoutinePlan to define general behaviors (suggestWorkouts() and suggestFoods()) shared by all fitness plans. The specific details are hidden from the user and implemented only in the subclasses (WeightLossPlan, WeightGainPlan, MuscleGainPlan).
+This allows different plan types to share the same structure while hiding internal logic.
+2 Inheritance
+The three fitness plan classes (WeightLossPlan, WeightGainPlan, MuscleGainPlan) inherit from the abstract parent class RoutinePlan.
+They reuse the goal property and override the abstract methods to provide their own recommendations.
+3 Polymorphism
+The variable RoutinePlan plan can store objects of any subclass (WeightLossPlan, WeightGainPlan, MuscleGainPlan).
+When calling methods such as suggestWorkouts() or suggestFoods(), Java automatically executes the correct version depending on the plan selected by the user.
+This allows flexible behavior while using a single reference type.
+4 Encapsulation
+The User class demonstrates encapsulation using private fields (username, password, loggedIn) and public getter and login methods.
+Sensitive data cannot be accessed or modified directly; instead, interaction occurs through controlled methods like login(), logout(), and isLoggedIn().
+This protects data integrity and prevents unauthorized modifications.
 
 Program Structure
-Class - Role
-Main - Main program entry point, handles user interaction, registration, login, and routine setup.
-User - Represents a user with encapsulated attributes like username, password, weight, goal, and selected workouts/foods.
-Workout (abstract) - Blueprint for all workouts, enforces implementation of showDetails() in subclasses.
-Cardio, Strength, Flexibility - Specific types of workouts (Inheritance + Polymorphism) with their own showDetails() implementations.
-Food - Represents food recommendations with encapsulated name and type attributes.
-InvalidInputException	Custom exception for handling invalid user inputs.
-Text-Based Class Relationships
-                Workout (abstract)
-                     ↑
-        -----------------------------
-        |            |              |
-     Cardio       Strength     Flexibility
 
-Main --> uses --> User --> contains --> List<Workout>, List<Food>
-Main --> throws --> InvalidInputException
-Main --> uses --> Food
+Main Classes and Their Roles
+• Main – Controls the overall program flow, menu navigation, input handling, and linking of all system features.
+• User – Stores user information and handles login/logout functionality.
+• RoutinePlan (abstract) – Base class representing a generic fitness plan with required methods for foods and workouts.
+• WeightLossPlan, WeightGainPlan, MuscleGainPlan – Concrete subclasses providing specific workouts and foods for each goal.
+• RoutineRecord – A model class representing a saved routine, including workout, food, goal, number of days, and timestamp.
+Class Relationships (Text-Based Diagram)
+RoutinePlan (abstract) / | \ / | \ WeightLossPlan WeightGainPlan MuscleGainPlan (inherit RoutinePlan) User ----> manages login/logout Main ----> controls program flow ----> creates RoutinePlan subclasses ----> stores RoutineRecord objects RoutineRecord ----> holds saved routine data 
 
- How to Run the Program
-Save the program file
-Save the code in a file named Main.java.
-Open Command Prompt / Terminal
-Navigate to the directory where Main.java is saved.
-Compile the program (javac Main.java) This will generate a Main.class file if there are no syntax errors.
-Run the program (java Main)
-Interact with the program
-You will have to register and login to select the goal that you want to achieve 
-The system will suggest workouts and food that fits to your specific needs
-The program will display your saved workout and meal plan.
+How to Run the Program
+
+• Open any Java-supported IDE or command-line terminal.
+• Save the file as Main.java.
+• Compile the program: javac Main.java 
+• Run the program: java Main 
+• Follow the menu: 
+• Register an account
+• Log in
+• Choose a fitness goal
+• Select recommended workouts and food
+• Save, view, or delete routines
+• Logout or exit
 
 Sample Output
---- Welcome to FitTrack ---
-1. Register
-2. Login
-3. Exit
-Choose an option: 1
-Enter username: aira camino
-Enter password: *****
-Registration successful!
 
---- Welcome to FitTrack ---
-1. Register
-2. Login
-3. Exit
-Choose an option: 2
-Enter username: aira camino
-Enter password: *****
-Login successful!
-Enter your current weight (kg): 40
-Enter your goal (lose/gain/build): gain
+===== FITTRACK SYSTEM =====
+[1] Register
+[2] Login & Generate Routine
+[3] Add Routine (must be logged in)
+[4] View Saved Routines
+[5] Delete Routine
+[6] Logout
+[7] Exit Program
+Enter choice: 1
+Enter username: jermae
+Enter password: 2114
+Registration successful! You may now log in.
 
-Suggested Workouts:
-1. Strength Workout: Weightlifting | Duration: 40 mins
-2. Strength Workout: Push-ups | Duration: 20 mins
+===== FITTRACK SYSTEM =====
+[1] Register
+[2] Login & Generate Routine
+[3] Add Routine (must be logged in)
+[4] View Saved Routines
+[5] Delete Routine
+[6] Logout
+[7] Exit Program
+Enter choice: 2
+Username: jermae
+Password: 2114
+Login successful! Welcome, jermae.
+Enter your age (years): 19
+Enter your weight (kg): 60
 
-Suggested Foods:
-1. Supplement: Protein Shake
-2. Meal: Rice & Chicken
+Choose Goal:
+[1] Lose Weight
+[2] Gain Weight
+[3] Build Muscle
+Select (1-3): 1
 
-Select workout numbers (comma separated): 1
-Select food numbers (comma separated): 2
+--- Recommended Workouts ---
+[1] Cardio Training (30-45 min)
+[2] HIIT Workout (20-25 min)
+Choose workout by number: 1
+
+--- Recommended Foods ---
+[1] Vegetable Salad
+[2] Grilled Chicken
+[3] Oatmeal
+[4] Steamed Fish
+Choose food by number: 1
+How many days should this routine be performed? 20
 
 Routine saved successfully!
+Goal: Lose Weight
+Workout: Cardio Training (30-45 min)
+Food: Vegetable Salad
+Days to Perform: 20
+Saved On: 2025-12-02 14:49:12
 
-Your Workout Routine:
-Strength Workout: Weightlifting | Duration: 40 mins
+===== FITTRACK SYSTEM =====
+[1] Register
+[2] Login & Generate Routine
+[3] Add Routine (must be logged in)
+[4] View Saved Routines
+[5] Delete Routine
+[6] Logout
+[7] Exit Program
+Enter choice: 3
+Add another routine:
+Enter your age (years): 19
+Enter your weight (kg): 40
 
-Your Meal Plan:
-Meal: Rice & Chicken
+Choose Goal:
+[1] Lose Weight
+[2] Gain Weight
+[3] Build Muscle
+Select (1-3): 2
 
-Logging out...
+--- Recommended Workouts ---
+[1] Light Strength Training
+[2] Low-Intensity Full Body Workout
+Choose workout by number: 1
 
-Acknowledgement
-	 We would like to express our deepest appreciation to our instructor for her guidance and support throughout this semester and the completion of this project. We would also like extend our gratitude to our classmates and peers for their unwavering support that brought us motivation and encouragement during the progress of this project.
+--- Recommended Foods ---
+[1] High-Calorie Rice Meals
+[2] Pasta
+[3] Healthy Fats (nuts, avocado)
+[4] Full-fat Dairy
+Choose food by number: 2
+How many days should this routine be performed? 15
 
-Disclaimer
-	This project and its contents are provided for example and learning purposes only. Students are encouraged to use it as a reference and not copy it in its entirety.
+Routine saved successfully!
+Goal: Gain Weight
+Workout: Light Strength Training
+Food: Pasta
+Days to Perform: 15
+Saved On: 2025-12-02 14:49:37
 
-Contributors
+===== FITTRACK SYSTEM =====
+[1] Register
+[2] Login & Generate Routine
+[3] Add Routine (must be logged in)
+[4] View Saved Routines
+[5] Delete Routine
+[6] Logout
+[7] Exit Program
+Enter choice: 4
+
+=== Saved Routines ===
+
+Record #1
+Goal: Lose Weight
+Workout: Cardio Training (30-45 min)
+Food: Vegetable Salad
+Days to Perform: 20
+Saved On: 2025-12-02 14:49:12
+
+Record #2
+Goal: Gain Weight
+Workout: Light Strength Training
+Food: Pasta
+Days to Perform: 15
+Saved On: 2025-12-02 14:49:37
+
+===== FITTRACK SYSTEM =====
+[1] Register
+[2] Login & Generate Routine
+[3] Add Routine (must be logged in)
+[4] View Saved Routines
+[5] Delete Routine
+[6] Logout
+[7] Exit Program
+Enter choice: 5
+
+=== Saved Routines ===
+
+Record #1
+Goal: Lose Weight
+Workout: Cardio Training (30-45 min)
+Food: Vegetable Salad
+Days to Perform: 20
+Saved On: 2025-12-02 14:49:12
+
+Record #2
+Goal: Gain Weight
+Workout: Light Strength Training
+Food: Pasta
+Days to Perform: 15
+Saved On: 2025-12-02 14:49:37
+Enter record number to delete (or 0 to cancel): 1
+Record deleted.
+
+===== FITTRACK SYSTEM =====
+[1] Register
+[2] Login & Generate Routine
+[3] Add Routine (must be logged in)
+[4] View Saved Routines
+[5] Delete Routine
+[6] Logout
+[7] Exit Program
+Enter choice: 4
+
+=== Saved Routines ===
+
+Record #1
+Goal: Gain Weight
+Workout: Light Strength Training
+Food: Pasta
+Days to Perform: 15
+Saved On: 2025-12-02 14:49:37
+
+===== FITTRACK SYSTEM =====
+[1] Register
+[2] Login & Generate Routine
+[3] Add Routine (must be logged in)
+[4] View Saved Routines
+[5] Delete Routine
+[6] Logout
+[7] Exit Program
+Enter choice: 6 
+You have been logged out.
+
+===== FITTRACK SYSTEM =====
+[1] Register
+[2] Login & Generate Routine
+[3] Add Routine (must be logged in)
+[4] View Saved Routines
+[5] Delete Routine
+[6] Logout
+[7] Exit Program
+Enter choice: 7
+Program terminated. Goodbye!
+
+
+Contributor
+
 Jermae Balmes
-France Javie
 Aira Camino
+France Javier
+
 
 
