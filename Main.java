@@ -2,12 +2,6 @@ import java.util.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-/*
-  FitTrack: A User-Centered Fitness and Progress Monitoring System
-  - Single-file program with public class Main so typical graders/environments find main().
-  - Demonstrates: Abstraction, Inheritance, Polymorphism, Encapsulation.
-*/
-
 abstract class RoutinePlan {
     protected String goal;
 
@@ -388,3 +382,4 @@ public class Main {
         System.out.println("You have been logged out.");
     }
 }
+
